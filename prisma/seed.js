@@ -32,15 +32,15 @@ async function seedUsers() {
 async function seedInvoices() {
   for (let i = 0; i < invoices.length; i++) {
     const invoice = invoices[i];
-
+    const date = new Date(invoice.date)
     try {
       await prisma.invoices.create({
         data: {
-          id: invoice.id,
           customer_id: invoice.customer_id,
           amount: invoice.amount,
+          image_url: invoice.image_url,
           status: invoice.status,
-          date: invoice.date
+          date: date.toISOString()
         },
       });
     } catch(e) {
@@ -77,7 +77,6 @@ async function seedRevenue() {
         data: {
           month: rev.month,
           revenue: rev.revenue,
-          id: customers[i].id
         },
       });
     } catch(e) {

@@ -11,7 +11,7 @@ datasource db {
 }
 
 model Invoices {
-  id          String    @unique @db.Uuid
+  id          Int       @id @default(autoincrement())
   customer_id String    @db.Uuid
   amount      Int
   status      String
@@ -20,7 +20,7 @@ model Invoices {
 }
 
 model Customers {
-  id        String     @unique @db.Uuid
+  id        String     @id @unique @db.Uuid
   name      String     @db.VarChar(255)
   email     String     @db.VarChar(255)
   image_url String     @db.VarChar(255)
@@ -28,13 +28,13 @@ model Customers {
 }
 
 model Revenue {
-  id      String    @unique @db.Uuid
-  mont    String @db.VarChar(4)
+  id      Int    @id @default(autoincrement())
+  month    String @db.VarChar(4)
   revenue Int
 }
 
 model Users {
-  id       String    @unique @db.Uuid
+  id       String @id @unique @db.Uuid
   name     String @db.VarChar(255)
   email    String @unique @db.VarChar(255)
   password String @db.VarChar(255)
