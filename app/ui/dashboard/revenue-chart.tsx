@@ -1,27 +1,31 @@
 import { generateYAxis } from '@/app/lib/utils';
-import { CalendarIcon } from '@heroicons/react/24/outline';
 import { lusitana } from '@/app/ui/fonts';
 import { Revenue } from '@/app/lib/definitions';
-
+import { fetchRevenue } from '@/app/lib/data';
+const { CalendarIcon } = require('@heroicons/react/24/outline');
 // This component is representational only.
 // For data visualization UI, check out:
 // https://www.tremor.so/
 // https://www.chartjs.org/
 // https://airbnb.io/visx/
 
-export default async function RevenueChart({
-  revenue,
-}: {
-  revenue: Revenue[];
-}) {
+export default async function RevenueChart() {
+  let error = ''
+  let revenue : Revenue[] = []
+  try {
+    revenue = await fetchRevenue();
+  } catch (err) {
+    // console.log(err)
+    error = 'Error Fetching Revenue Data'
+  }
   const chartHeight = 350;
   // NOTE: comment in this code when you get to this point in the course
 
   const { yAxisLabels, topLabel } = generateYAxis(revenue);
 
-  // if (!revenue || revenue.length === 0) {
-  //   return <p className="mt-4 text-gray-400">No data available.</p>;
-  // }
+  if (!revenue || revenue.length === 0 || !!error) {
+    return <p className="mt-4 text-gray-400">{!error ? 'No data available.' : error}</p>;
+  }
 
   return (
     <div className="w-full md:col-span-4">
